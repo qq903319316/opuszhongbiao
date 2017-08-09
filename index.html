@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>钟表</title>
+</head>
+<style>
+	.clock{
+		width:400px;
+		height:400px;
+		background:radial-gradient(#888,#333);
+		border:5px solid rgba(2,2,2,0.5);
+		border-radius:50%;
+		position:absolute;
+		left:0; top:0; right:0; bottom:0;
+		margin:auto;
+	}
+</style>
+<script src="jquery.js"></script>
+<script>
+$(function(){
+
+function createMark(){
+	 for (var i = 0; i < 60; i++) {
+	 	if(i%5==0){
+	 		var w=4;h=10
+	 	}else{
+	 		var w=2;h=6
+	 	}
+	 	var clockW=$(".clock").width()
+	 	var left=(clockW-w)/2
+	 	var div=$("<div>").css({"background":"black","width":w+"px","height":h+"px","position":"absolute","top":0,"left":0,"transform":"translate("+left+"px) rotate("+i*6+"deg)","transformOrigin":"center 200px"})
+	    $(".clock").append(div)
+	 }
+}       
+     //w:width   h:height    c:color    a:deg
+	 function createPointer(w,h,c,a){
+	 	 var left=($(".clock").width())/2-10
+	 	 var top=($(".clock").height()-h)/2
+         var div=$("<div>").css({"width":w+"px","height":h+"px","background":c,"position":"absolute","left":0,"top":0,"transform":"translate("+left+"px,"+top+"px) rotate("+a+"deg)","transformOrigin":"10px "+(h/2)+"px"})
+         $(".clock").append(div)
+         return div[0]
+	 }
+ 
+	 createMark();
+	 var time=new Date();
+	 var h=createPointer(80,10,"black",time.getHours()*30-90+30*(time.getMinutes()*6-90)/360)
+	 var m=createPointer(120,6,"black",time.getMinutes()*6-90)
+	 var s=createPointer(140,2,"red",time.getSeconds()*6-90)
+
+     setInterval(function(){
+     	var time=new Date();
+        h.style.transform="translate("+190+"px,"+195+"px) rotate("+(time.getHours()*30-90+30*(time.getMinutes()*6-90)/360)+"deg)"
+        m.style.transform="translate("+190+"px,"+197+"px) rotate("+(time.getMinutes()*6-90)+"deg)"
+        s.style.transform="translate("+190+"px,"+199+"px) rotate("+(time.getSeconds()*6-90)+"deg)"
+     },1000)
+})
+</script>
+<body>
+<div class="clock"></div>
+</body>
+</html>	
